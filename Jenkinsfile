@@ -32,8 +32,8 @@ pipeline {
                         {
                             cd $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
                             ls
-
-                            # gci -r -i *.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html}
+                            gci -r -i .\\*.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html}
+                            ls
                             }
                         catch
                         {
