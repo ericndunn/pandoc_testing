@@ -43,12 +43,12 @@ pipeline {
                         '''
                     }
                 }
-            }
-            post {
-                cleanup {
-                    cleanWs deleteDirs: true, notFailBuild: true
-                }
+            // }
+            // post {
+            //     cleanup {
+            //         cleanWs deleteDirs: true, notFailBuild: true
+            //     }
             }
         }
     }
-}
+ }
