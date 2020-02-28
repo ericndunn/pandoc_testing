@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout repository') {
             agent {
-                label 'core && windows_2016'
+                label 'windows'
             }
             stages {
                 stage('Prep Environment') {
@@ -17,6 +17,20 @@ pipeline {
                                 New-Item -Path $tempPath -ItemType Directory -Force
                             }
                         }
+                        catch
+                        {
+                            Write-Output $PSItem
+                            exit 1
+                        }
+                        '''
+                    }
+                }
+                stage('Prep Environment') {
+                    steps {
+                        powershell script: '''
+                        try
+                            cd \\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation
+                            gci -r -i *.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html}
                         catch
                         {
                             Write-Output $PSItem
