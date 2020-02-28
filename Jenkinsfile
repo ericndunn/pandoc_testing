@@ -30,7 +30,7 @@ pipeline {
                         powershell script: '''
                         try
                         {
-                            cd \\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation
+                            cd $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
                             gci -r -i *.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html}
                             }
                         catch
