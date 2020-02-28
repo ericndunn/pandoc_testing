@@ -25,7 +25,7 @@ pipeline {
                         '''
                     }
                 }
-                stage('Prep Environment') {
+                stage('Convert Markdown files') {
                     steps {
                         powershell script: '''
                         try
