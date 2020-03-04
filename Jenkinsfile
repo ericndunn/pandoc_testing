@@ -47,11 +47,9 @@ pipeline {
                 //         '''
                 //     }
                 // }
-                stage('Clean Workspace') {
+                stage('Git') {
                     steps {
-                        cleanup {
-                            cleanWs deleteDirs: true, notFailBuild: true
-                        }
+                        step([$class: 'WsCleanup'])
                     }
                 }
             }
