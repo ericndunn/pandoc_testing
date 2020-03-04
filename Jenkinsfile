@@ -25,7 +25,7 @@ pipeline {
                         '''
                     }
                 }
-                stage('Convert Markdown files-1') {
+                stage('Convert Markdown files HTML') {
                     steps {
                         powershell script: '''
                         try
@@ -34,6 +34,25 @@ pipeline {
                             Get-ChildItem -Recurse -Include *.md | foreach {
                                 $html="$env:WORKSPACE\\build\\temp\\$($PSItem.Name.Replace('.md','.html'))"
                                 pandoc $PSItem.Name -o $html
+                            }
+                        }
+                        catch
+                        {
+                            Write-Output $PSItem
+                            exit 1
+                        }
+                            '''
+                    }
+                }
+                stage('Convert Markdown files DOCX') {
+                    steps {
+                        powershell script: '''
+                        try
+                        {
+                            Set-Location .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
+                            Get-ChildItem -Recurse -Include *.md | foreach {
+                                $docx="$env:WORKSPACE\\build\\temp\\$($PSItem.Name.Replace('.md','.docx'))"
+                                pandoc $PSItem.Name -o $docx
                             }
                         }
                         catch
