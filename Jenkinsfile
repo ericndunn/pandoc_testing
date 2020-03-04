@@ -27,9 +27,9 @@ pipeline {
                 }
                 stage('Convert Markdown files1') {
                     steps {
-                        powershell label: '',
-                        returnStdout: true,
-                        script: 'cd .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\;gci -r -i .\\*.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};'
+                        powershell label: '', script: '''cd .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\;
+                            gci -r -i *.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc $_.name -o $html}
+                        '''
                     }
                 }
                 // stage('Convert Markdown files2') {
