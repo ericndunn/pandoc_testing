@@ -28,7 +28,7 @@ pipeline {
                 stage('Convert Markdown files1') {
                     steps {
                         powershell label: '', script: '''cd .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\;
-                            gci -r -i *.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc $_.name -o $html}
+                            gci -r -i *.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc $_.name -o $env:WORKSPACE\\Build\\Temp\\$html}
                         '''
                     }
                 }
