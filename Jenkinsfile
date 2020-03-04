@@ -27,19 +27,26 @@ pipeline {
                 }
                 stage('Convert Markdown files') {
                     steps {
-                        powershell script: '''
-                        try
-                        {
-                            gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};
-                            }
-                        catch
-                        {
-                            Write-Output $PSItem
-                            exit 1
-                        }
-                        '''
+                        powershell label: '',
+                        returnStdout: true,
+                        script: 'gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};'
                     }
                 }
+                // stage('Convert Markdown files') {
+                //     steps {
+                //         powershell script: '''
+                //         try
+                //         {
+                //             gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};
+                //             }
+                //         catch
+                //         {
+                //             Write-Output $PSItem
+                //             exit 1
+                //         }
+                //         '''
+                //     }
+                // }
             // }
             // post {
             //     cleanup {
