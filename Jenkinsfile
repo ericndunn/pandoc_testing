@@ -47,11 +47,11 @@ pipeline {
                 //         '''
                 //     }
                 // }
-                stage('Git') {
-                    steps {
-                        step([$class: 'WsCleanup'])
-                    }
-                }
+                // stage('Git') {
+                //     steps {
+                //         step([$class: 'WsCleanup'])
+                //     }
+                // }
             }
         }
     }
