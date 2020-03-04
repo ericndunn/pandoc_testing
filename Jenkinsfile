@@ -44,11 +44,11 @@ pipeline {
                             '''
                     }
                 }
-                stage('Cleanup Workspace') {
-                    steps {
-                        step([$class: 'WsCleanup'])
-                    }
-                }
+                // stage('Cleanup Workspace') {
+                //     steps {
+                //         step([$class: 'WsCleanup'])
+                //     }
+                // }
             }
         }
     }
