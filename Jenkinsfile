@@ -6,12 +6,31 @@ pipeline {
                 label 'windows'
             }
             stages {
-                stage('Prep Environment') {
+                stage('Prep Environment HTML') {
                     steps {
                         powershell script: '''
                         try
                         {
-                            $tempPath = Join-Path -Path $env:WORKSPACE -ChildPath \\Build\\Temp\\
+                            $tempPath = Join-Path -Path $env:WORKSPACE -ChildPath \\Build\\html-files\\
+                            if ( ( Test-Path -Path $tempPath ) -eq $false )
+                            {
+                                New-Item -Path $tempPath -ItemType Directory -Force
+                            }
+                        }
+                        catch
+                        {
+                            Write-Output $PSItem
+                            exit 1
+                        }
+                        '''
+                    }
+                }
+                stage('Prep Environment DOCX') {
+                    steps {
+                        powershell script: '''
+                        try
+                        {
+                            $tempPath = Join-Path -Path $env:WORKSPACE -ChildPath \\Build\\docx-files\\
                             if ( ( Test-Path -Path $tempPath ) -eq $false )
                             {
                                 New-Item -Path $tempPath -ItemType Directory -Force
@@ -32,7 +51,7 @@ pipeline {
                         {
                             Set-Location .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
                             Get-ChildItem -Recurse -Include *.md | foreach {
-                                $html="$env:WORKSPACE\\build\\temp\\$($PSItem.Name.Replace('.md','.html'))"
+                                $html="$env:WORKSPACE\\build\\html-files\\$($PSItem.Name.Replace('.md','.html'))"
                                 pandoc $PSItem.Name -o $html
                             }
                         }
@@ -51,7 +70,7 @@ pipeline {
                         {
                             Set-Location .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
                             Get-ChildItem -Recurse -Include *.md | foreach {
-                                $docx="$env:WORKSPACE\\build\\temp\\$($PSItem.Name.Replace('.md','.docx'))"
+                                $docx="$env:WORKSPACE\\build\\docx-files\\$($PSItem.Name.Replace('.md','.docx'))"
                                 pandoc $PSItem.Name -o $docx
                             }
                         }
