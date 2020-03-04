@@ -28,34 +28,27 @@ pipeline {
                 stage('Convert Markdown files-1') {
                     steps {
                         powershell script: '''
+                        try
+                        {
                             Set-Location .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
                             Get-ChildItem -Recurse -Include *.md | foreach {
                                 $html="$env:WORKSPACE\\build\\temp\\$($PSItem.Name.Replace('.md','.html'))"
                                 pandoc $PSItem.Name -o $html
                             }
+                        }
+                        catch
+                        {
+                            Write-Output $PSItem
+                            exit 1
+                        }
                             '''
                     }
                 }
-                // stage('Convert Markdown files2') {
-                //     steps {
-                //         powershell script: '''
-                //         try
-                //         {
-                //             cd .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\; gci -r -i .\\*.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};
-                //             }
-                //         catch
-                //         {
-                //             Write-Output $PSItem
-                //             exit 1
-                //         }
-                //         '''
-                //     }
-                // }
-                // stage('Git') {
-                //     steps {
-                //         step([$class: 'WsCleanup'])
-                //     }
-                // }
+                stage('Cleanup Workspace') {
+                    steps {
+                        step([$class: 'WsCleanup'])
+                    }
+                }
             }
         }
     }
