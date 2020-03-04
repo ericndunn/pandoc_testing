@@ -25,10 +25,15 @@ pipeline {
                         '''
                     }
                 }
-                stage('Convert Markdown files1') {
+                stage('Convert Markdown files-1') {
                     steps {
-                        powershell label: '', script: '''cd .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\;
-                        gci -r -i *.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc $_.name -o $env:WORKSPACE\\Build\\Temp\\$html}'''
+                        powershell script: '''
+                            Set-Location .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
+                            Get-ChildItem -Recurse -Include *.md | foreach {
+                                $html="$env:WORKSPACE\\build\\temp\\$($PSItem.Name.Replace('.md','.html'))"
+                                pandoc $PSItem.Name -o $html
+                            }
+                            '''
                     }
                 }
                 // stage('Convert Markdown files2') {
