@@ -25,34 +25,37 @@ pipeline {
                         '''
                     }
                 }
-                // stage('Convert Markdown files') {
-                //     steps {
-                //         powershell label: '',
-                //         returnStdout: true,
-                //         script: 'gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};'
-                //     }
-                // }
-                stage('Convert Markdown files') {
+                stage('Convert Markdown files1') {
                     steps {
-                        powershell script: '''
-                        try
-                        {
-                            gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};
-                            }
-                        catch
-                        {
-                            Write-Output $PSItem
-                            exit 1
-                        }
-                        '''
+                        powershell label: '',
+                        returnStdout: true,
+                        script: 'gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};'
                     }
                 }
-            }
-            post {
-                cleanup {
-                    cleanWs deleteDirs: true, notFailBuild: true
+                // stage('Convert Markdown files2') {
+                //     steps {
+                //         powershell script: '''
+                //         try
+                //         {
+                //             gci -r -i $env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\*.md |foreach{$html=$_.directoryname+"\"+$_.basename+".html";pandoc -f markdown -s $_.name -o $html};
+                //             }
+                //         catch
+                //         {
+                //             Write-Output $PSItem
+                //             exit 1
+                //         }
+                //         '''
+                //     }
+                // }
+                stage('Clean Workspace') {
+                    steps {
+                        cleanup {
+                            cleanWs deleteDirs: true, notFailBuild: true
+                        }
+                    }
                 }
             }
         }
     }
- }
+}
+
