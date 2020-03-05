@@ -81,6 +81,26 @@ pipeline {
                             '''
                     }
                 }
+                stage('Replace strings') {
+                    steps {
+                        powershell script: '''
+                        try
+                        {
+                            $InputFiles = Get-Item "$env:WORKSPACE\\Build\\html-files\\*.html"
+                            $OldString  = 'href="https'
+                            $NewString  = 'target="_blank" href="https'
+                            $InputFiles | ForEach {
+                                (Get-Content -Path $_.FullName).Replace($OldString,$NewString) | Set-Content -Path $_.FullName
+                            }
+                        }
+                        catch
+                        {
+                            Write-Output $PSItem
+                            exit 1
+                        }
+                            '''
+                    }
+                }
                 stage('Convert Markdown files DOCX') {
                     steps {
                         powershell script: '''
