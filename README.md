@@ -8,35 +8,25 @@
 
 1. The directory structure hierachy **WILL** mirror the directory structure hierachy of the Knowledge base in [ServiceNow SNOW](https://pspctprd.servicenowservices.com/nav_to.do?uri=%2F$knowledge.do).
 
-## Initial Document Upload
+**The below BASH and Powershell commands will insert target (that opens a new web browser tab) into each link within an HTML page.**
 
-```text
-commands-to-render-html.md  DevOps-Pipeline/  README.md
+**Example HTML**
 
-DevOps-Pipeline:
-DevOps-Pipeline-Process-Documentation/
-
-DevOps-Pipeline/DevOps-Pipeline-Process-Documentation:
-How-to-configure-artifact-generation-in-Jenkins.md
-How-to-configure-linting-code-analysis-in-Jenkins.md
-How-to-configure-release-Jenkins-Artifactory.md
-How-to-configure-unit-testing-pester-in-Jenkins.md
-How-to-setup-the-pre-post-merge-builds-in-jenkins.md
-How-to-setup-the-pre-post-merge-builds-in-jenkins_images/
-Jenkinsfile.md
-Pipeline_Onboarding.md
-Pipeline_Onboarding_Images/
-
-DevOps-Pipeline/DevOps-Pipeline-Process-Documentation/How-to-setup-the-pre-post-merge-builds-in-jenkins_images/media:
-add_source.JPG      BranchSource_2.JPG  configure_project.JPG
-BranchSource_1.JPG  BranchSource_3.JPG
-
-DevOps-Pipeline/DevOps-Pipeline-Process-Documentation/Pipeline_Onboarding_Images/media:
-AttD40D.tmp.PNG  image1.jpeg  pipeline.jpg  pipeline.png
+```html
+BEFORE
+<a href="https://jenkins.io/doc/pipeline/tour/environment/">Click to see more examples of how to use Environment Variables</a>
+AFTER
+<a target="_blank" href="https://jenkins.io/doc/pipeline/tour/environment/">Click to see more examples of how to use Environment Variables</a>
 ```
 
-**The below BASH command will insert **target="_blank"** into each link within an HTML page. The inserted syntax with create links that open in a new tab in the browser.**
+**Example BASH Command**
 
 ```bash
 sed -i 's|href="https|target="_blank" href="https|g' *.html
+```
+
+**Example Powershell Command**
+
+```ps
+(Get-Content -path .\replacedemo.txt -Raw) -replace 'href="https','target="_blank" href="https' | Set-Content -Path .\replacedemo.txt
 ```
