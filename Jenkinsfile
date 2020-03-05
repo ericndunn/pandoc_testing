@@ -69,9 +69,9 @@ pipeline {
                         try
                         {
                             Set-Location .\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\
-                            Copy-Item '.\\How-to-Move-Repositories-from-Azure-to-BitBucket' -Destination "$env:WORKSPACE\\Build\\html-files\\"
-                            Copy-Item '.\\How-to-setup-the-pre-post-merge-builds-in-jenkins_images' -Destination "$env:WORKSPACE\\Build\\html-files\\"
-                            Copy-Item '.\\Pipeline_Onboarding_Images' -Destination "$env:WORKSPACE\\Build\\html-files\\"
+                            Copy-Item '.\\How-to-Move-Repositories-from-Azure-to-BitBucket' -Destination "$env:WORKSPACE\\Build\\html-files"
+                            Copy-Item '.\\How-to-setup-the-pre-post-merge-builds-in-jenkins_images' -Destination "$env:WORKSPACE\\Build\\html-files"
+                            Copy-Item '.\\Pipeline_Onboarding_Images' -Destination "$env:WORKSPACE\\Build\\html-files"
                         }
                         catch
                         {
