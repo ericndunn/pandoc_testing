@@ -63,6 +63,23 @@ pipeline {
                             '''
                     }
                 }
+                stage('Copy HTML Images') {
+                    steps {
+                        powershell script: '''
+                        try
+                        {
+                            Copy-Item '$env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\How-to-Move-Repositories-from-Azure-to-BitBucket' -Destination '$env:WORKSPACE\\Build\\html-files\\'
+                            Copy-Item '$env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\How-to-setup-the-pre-post-merge-builds-in-jenkins_images' -Destination '$env:WORKSPACE\\Build\\html-files\\'
+                            Copy-Item '$env:WORKSPACE\\DevOps-Pipeline\\DevOps-Pipeline-Process-Documentation\\Pipeline_Onboarding_Images' -Destination '$env:WORKSPACE\\Build\\html-files\\'
+                        }
+                        catch
+                        {
+                            Write-Output $PSItem
+                            exit 1
+                        }
+                            '''
+                    }
+                }
                 stage('Convert Markdown files DOCX') {
                     steps {
                         powershell script: '''
